@@ -24,7 +24,8 @@ const findAllSales = async () => {
   const [result] = await connection.execute(
     `SELECT sa.id as saleId, sa.date, sp.product_id as productId, sp.quantity
     FROM StoreManager.sales as sa
-    INNER JOIN StoreManager.sales_products as sp on sa.id = sp.sale_id;`,
+    INNER JOIN StoreManager.sales_products as sp on sa.id = sp.sale_id
+    ORDER BY sa.id ASC, sp.product_id ASC;`,
   );
 
   console.log(result);
@@ -36,7 +37,7 @@ const findSaleById = async (id) => {
     `SELECT sa.date, sp.product_id as productId, sp.quantity
     FROM StoreManager.sales as sa
     INNER JOIN StoreManager.sales_products as sp on sa.id = sp.sale_id
-    WHERE sa.id = (?);`,
+    WHERE sa.id = (?) ORDER BY sa.id ASC, sp.product_id ASC;`,
     [id],
   );
 
@@ -50,10 +51,24 @@ const deleteById = async (id) => connection.execute(
     [id],
 );
 
+const deleteSalesProducts = async (id) => connection.execute(
+    'DELETE FROM StoreManager.sales_products WHERE sale_id = (?)',
+    [id],
+);
+
+// const updateById = async (id, sales) => {
+//   await Promise.all(sales.map(async (sale) => connection.execute(
+//     'UPDATE StoreManager.sales_products SET quantity = ? WHERE sale_id = ? AND product_id = ?;',
+//     [sale.quantity, sale.productId, id],
+//   )));
+// };
+
 module.exports = {
   insert,
   insertNewSale,
   findAllSales,
   findSaleById,
   deleteById,
+  deleteSalesProducts,
+  // updateById,
 };
