@@ -39,4 +39,64 @@ describe('testando o controller do products', function () {
 
     expect(res.json.calledWith(mockModel[0])).to.be.true;
   });
+
+  it('Testando a função addProduct', async function () {
+    const res = {};
+    const req = { body: { name: 'Martelo de Bang' } };
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+
+    sinon.stub(productService, 'insertProduct').resolves({ type: null, message: {id: 4, name: 'Martelo de Bang'} });
+
+    await productsController.addProduct(req, res);
+
+    expect(res.status.calledWith(201)).to.be.true;
+
+    expect(res.json.calledWith({id: 4, name: 'Martelo de Bang'})).to.be.true;
+  });
+
+  it('Testando a função updateProductById', async function () {
+    const res = {};
+    const req = { body: { name: 'Martelo de Bang' }, params: { id: 4} };
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+
+    sinon.stub(productService, 'changeProductById').resolves({ type: null, message: {id: 4, name: 'Martelo de Bang'} });
+
+    await productsController.updateProductById(req, res);
+
+    expect(res.status.calledWith(200)).to.be.true;
+
+    expect(res.json.calledWith({id: 4, name: 'Martelo de Bang'})).to.be.true;
+  });
+
+   it('Testando a função deleteProductById', async function () {
+    const res = {};
+    const req = { params: { id: 4} };
+    res.status = sinon.stub().returns(res);
+    res.end = sinon.stub().returns();
+
+    sinon.stub(productService, 'removeProductById').resolves({ type: null, message: {id: 4, name: 'Martelo de Bang'} });
+
+    await productsController.deleteProductById(req, res);
+
+     expect(res.status.calledWith(204)).to.be.true;
+     
+   });
+  
+  it('Testando a função listProductsByQuery', async function () {
+    const res = {};
+    const req = { query: { q: 'Bang'} };
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+
+    sinon.stub(productService, 'getProductByQuery').resolves({ type: null, message: {id: 4, name: 'Martelo de Bang'} });
+
+    await productsController.listProductsByQuery(req, res);
+
+    expect(res.status.calledWith(200)).to.be.true;
+    expect(res.json.calledWith({id: 4, name: 'Martelo de Bang'})).to.be.true;
+     
+  });
+
 });
