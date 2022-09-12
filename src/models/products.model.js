@@ -13,7 +13,6 @@ const findProductById = async (id) => {
     [id],
   );
   
-  console.log(result);
   return result;
 };
 
