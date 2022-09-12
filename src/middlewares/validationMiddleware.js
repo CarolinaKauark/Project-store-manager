@@ -10,6 +10,46 @@ const validationName = (req, res, next) => {
   next();
 };
 
+// const validProductId = (productId, res) => {
+//   if (!productId) return res.status(400).json({ message: '"productId" is required' });
+// };
+
+// const validQuantity = (quantity, res) => {
+//   if (!quantity && quantity !== 0) return res.status(400).json({ message: '"quantity" is required' });
+
+//   if (quantity <= 0) {
+//     return res.status(422).json({ message: '"quantity" must be greater than or equal to 1' });
+//   }
+// };
+
+const validateProductId = (req, res, next) => {
+  const sales = req.body;
+
+  sales.forEach(({ productId }) => {
+    if (!productId) return res.status(400).json({ message: '"productId" is required' });
+  });
+
+  next();
+};
+
+const validateQuantity = (req, res, next) => {
+  const sales = req.body;
+
+  sales.forEach(({ quantity }) => {
+    if (!quantity && quantity !== 0) {
+      return res.status(400).json({ message: '"quantity" is required' });
+    } 
+
+  if (quantity <= 0) {
+    return res.status(422).json({ message: '"quantity" must be greater than or equal to 1' });
+  }
+  });
+
+  next();
+};
+
 module.exports = {
   validationName,
+  validateProductId,
+  validateQuantity,
 };
