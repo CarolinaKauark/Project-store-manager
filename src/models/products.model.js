@@ -28,11 +28,17 @@ const insert = async (name) => {
 const updateById = async (id, name) => connection.execute(
     'UPDATE StoreManager.products SET name = (?) WHERE id = (?)',
     [name, id],
-  );
+);
+
+const deleteById = async (id) => connection.execute(
+    'DELETE FROM StoreManager.products WHERE id = (?)',
+    [id],
+);
 
 module.exports = {
   findAllProducts,
   findProductById,
   insert,
   updateById,
+  deleteById,
 };
