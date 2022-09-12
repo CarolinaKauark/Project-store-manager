@@ -6,7 +6,7 @@ const hasProductDb = async (sales) => {
     sales.map(({ productId }) => productsModel.findProductById(productId)),
   );
 
-  if (findId.some((id) => !id)) {
+  if (findId.some((id) => id === undefined)) {
     return { type: 404, message: 'Product not found' };
   }
 };

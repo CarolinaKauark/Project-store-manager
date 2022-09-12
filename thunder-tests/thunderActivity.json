@@ -64,12 +64,12 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-09-09T23:02:23.953Z",
-    "modified": "2022-09-12T17:26:12.545Z",
+    "modified": "2022-09-12T18:38:39.603Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "[\n  {\n    \"productId\": 1,\n    \"quantity\": 0\n  },\n  {\n    \"productId\": 2,\n    \"quantity\": 5\n  }\n]",
+      "raw": "[\n  {\n    \"productId\": 6,\n    \"quantity\": 2\n  },\n  {\n    \"productId\": 2,\n    \"quantity\": 5\n  }\n]",
       "form": []
     },
     "tests": []

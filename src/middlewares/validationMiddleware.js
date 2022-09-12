@@ -25,26 +25,22 @@ const validationName = (req, res, next) => {
 const validateProductId = (req, res, next) => {
   const sales = req.body;
 
-  sales.forEach(({ productId }) => {
-    if (!productId) return res.status(400).json({ message: '"productId" is required' });
-  });
-
+  const hasProductId = sales.every(({ productId }) => productId);
+  if (!hasProductId) return res.status(400).json({ message: '"productId" is required' });
   next();
 };
 
 const validateQuantity = (req, res, next) => {
   const sales = req.body;
 
-  sales.forEach(({ quantity }) => {
-    if (!quantity && quantity !== 0) {
-      return res.status(400).json({ message: '"quantity" is required' });
-    } 
+  const hasQuantity = sales.every(({ quantity }) => quantity !== undefined && quantity !== null);
 
-  if (quantity <= 0) {
+  if (!hasQuantity) return res.status(400).json({ message: '"quantity" is required' });
+  
+  const value = sales.every(({ quantity }) => quantity > 0);
+  if (!value) {
     return res.status(422).json({ message: '"quantity" must be greater than or equal to 1' });
   }
-  });
-
   next();
 };
 

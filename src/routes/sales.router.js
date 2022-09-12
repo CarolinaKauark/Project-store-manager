@@ -9,4 +9,8 @@ salesRouter.post('/',
   validation.validateProductId, validation.validateQuantity,
   salesController.addSales);
 
+salesRouter.get('/', salesController.listSales);
+
+salesRouter.get('/:id', salesController.listSaleById);
+
 module.exports = salesRouter;
