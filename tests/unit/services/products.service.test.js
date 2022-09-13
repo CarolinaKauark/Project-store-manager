@@ -31,6 +31,42 @@ describe('Testando a camada service do products', function () {
     expect(products.message).to.deep.equal('Product not found');
   });
 
+  it('testando a função insertProduct', async function () {
+    sinon.stub(productModel, 'insert').resolves({insertId: 4});
+
+    const products = await productService.insertProduct("ProdutoX");
+
+    expect(products).to.deep.equal({ type: null, message: {id: 4, name: "ProdutoX"} });
+  });
+
+  it('testando a função changeProductById', async function () {
+    sinon.stub(productModel, 'updateById').resolves({ insertId: 4 });
+    sinon.stub(productModel, 'findProductById').resolves({id: 4, name: "ProdutoX"});
+
+    const products = await productService.changeProductById( 4, "ProdutoX");
+
+    expect(products).to.deep.equal({ type: null, message: {id: 4, name: "ProdutoX"} });
+  });
+
+  it('testando a função removeProductById', async function () {
+    sinon.stub(productModel, 'findProductById').resolves({ id: 4, name: "ProdutoX" });
+    sinon.stub(productModel, 'deleteById').resolves({id: 4, name: "ProdutoX"});
+
+    const products = await productService.removeProductById(4);
+
+    expect(productModel.deleteById.calledWith(4)).to.be.true;
+    
+    // expect(products).to.equal({ id: 4, name: "ProdutoX"} );
+  });
+
+   it('testando a função getProductByQuery', async function () {
+    sinon.stub(productModel, 'findProductByQuery').resolves(modelMock[0]);
+
+    const products = await productService.getProductByQuery("Martelo");
+
+    expect(products.message).to.deep.equal(modelMock[0]);
+  });
+
   afterEach(function () {
     sinon.restore();
   });
